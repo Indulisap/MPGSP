@@ -532,7 +532,7 @@ void loop() {
 
 // ************* Функция Цеппера *************
 void setZepper() {
-  digitalWrite(PIN_RELE, LOW);
+  digitalWrite(PIN_RELE, HIGH);
   int power = 5;   // Очки, половинная мощность (5 вольт)
   setResistance(map(power, 0, 12, 0, 100));
   Serial.print("U = ");
@@ -583,12 +583,11 @@ void setZepper() {
   start_Buzzer(); // Звуковой сигнал взять электроды
   delay(5000);
   stop_Buzzer();
-  
+  digitalWrite(PIN_RELE, LOW); // Переключим выход генератора на Электроды
   power = 12;  // Электроды, полная мощность
   setResistance(map(power, 0, 12, 0, 100));
 
-  digitalWrite(PIN_RELE, HIGH); // Переключим выход генератора на Электроды
-  zepFreq = 30000 * 2;
+   zepFreq = 60000;
   AD9833setFrequency(zepFreq, SQUARE);
   Serial.println("Частота 30 KHz");
   readDamp(map(power, 0, 12, 0, 100));
@@ -600,7 +599,8 @@ void setZepper() {
   delay(420000);
   digitalWrite(ON_OFF_CASCADE_PIN, LOW);
   Serial.println("Перерыв 20 минут");
-  readDamp(map(power, 0, 12, 0, 100));
+   power = 0;  // Электроды, 0 мощность
+  setResistance(0);//map(power, 0, 12, 0, 100));
 
   lcd.setCursor(0, 0);
   lcd.print("     IS OFF     ");
@@ -611,6 +611,8 @@ void setZepper() {
   zepFreq = 30000 * 2;
   AD9833setFrequency(zepFreq, SQUARE);
   Serial.println("Частота 30 KHz");
+  power = 12;  // Электроды, полная мощность
+  setResistance(12);//map(power, 0, 12, 0, 100));
   readDamp(map(power, 0, 12, 0, 100));
 
   lcd.setCursor(0, 0);
@@ -692,7 +694,7 @@ void setZepper1() {
   setResistance(map(power, 0, 12, 0, 100));
   digitalWrite(PIN_RELE, HIGH); // Переключим выход генератора на Электроды
 
-  zepFreq = 30000 * 2;
+  zepFreq = 60000;
   AD9833setFrequency(zepFreq, SQUARE);
   Serial.println("Частота 30 KHz");
   readDamp(map(power, 0, 12, 0, 100));
@@ -704,7 +706,8 @@ void setZepper1() {
   delay(420000);
   digitalWrite(ON_OFF_CASCADE_PIN, LOW);
   Serial.println("Перерыв 20 минут");
-  readDamp(map(power, 0, 12, 0, 100));
+  power = 0;  // Электроды, 0 мощность
+  setResistance(0);//map(power, 0, 12, 0, 100));
 
   lcd.setCursor(0, 0);
   lcd.print("     IS OFF     ");
@@ -712,9 +715,11 @@ void setZepper1() {
   lcd.print("Wait  20 minutes");
   delay(1200000);
   digitalWrite(ON_OFF_CASCADE_PIN, HIGH);
-  zepFreq = 30000 * 2;
+  zepFreq = 60000 ;
   AD9833setFrequency(zepFreq, SQUARE);
   Serial.println("Frequency 30KHz");
+  power = 12;  // Электроды, полная мощность
+  setResistance(12);//map(power, 0, 12, 0, 100));   
   readDamp(map(power, 0, 12, 0, 100));
 
   lcd.setCursor(0, 0);
